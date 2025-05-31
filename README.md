@@ -3,4 +3,4 @@
 link de enlace al video: https://youtu.be/kX67itbzqIg
 
 
-La pagina completa esta dentro del .rar, ahi se puede correr el index y esta toda la informacion y toda la pagina.
+La pagina completa esta dentro del .rar, ahi se puede correr el index y esta toda la informacion y toda la pagina. debido a que no se podian subir todas las imagenes de los diagramas
