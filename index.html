@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detekta</title>
+    <link rel="stylesheet" href="styles/styles.css">
+    
+</head>
+<body>
+
+    <nav class="navbar">
+        <img src="styles/logo2.png" alt="Logo" class="nav-logo">
+        <div class="nav-buttons">
+            
+            <a href="https://docs.google.com/document/d/1mW249Dg0_qqX8Sy-1BJaYcdlwsSLYlWomtZoIeUkPlk/edit?tab=t.0#heading=h.iissbqjygt8k" class="nav-btn">Documentacion</a>
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E?usp=sharing" class="nav-btn">Codigo Utilizado</a>
+            <a href="BBDD-Banco.csv" download="contactos.csv" class="btn btn-primary">Descarga CSV</a>
+        </div>
+    </nav>
+    <div class="header">
+        <img src="styles/logo.png" alt="Logo" class="logo">
+        <div class="header-text">
+            <h1>Hackathon LogView360</h1>
+            <p>El grupo Detekta desarrolló con éxito una solución orientada a la observabilidad que integra, procesa, analiza y visualiza el recorrido completo de las transacciones bancarias. Esta solución abarca desde la validación de seguridad inicial, su paso por el ESB, hasta su ejecución final en el Core Bancario. Gracias a esta herramienta, es posible comprender el comportamiento de las transacciones, detectar inconsistencias y contar con visualizaciones efectivas para su monitoreo y análisis.</p>
+        </div>
+    </div>
+    
+
+<div class="product-selector">
+    <h2>Diagramas</h2 >
+    <div class="selector-container">
+        <label for="imageId">Selecciona un Diagrama (0-999):</label>
+        <input type="number" id="imageId" min="0" max="999" value="0">
+        <button id="loadImage">Ver Diagrama</button>
+    </div>
+    <div class="image-preview" id="imagePreview">
+        <p>Selecciona un número para ver el Diagrama</p>
+    </div>
+</div>
+
+
+<div class="modal" id="imageModal">
+    <span class="close-btn">&times;</span>
+    <img class="modal-content" id="modalImage">
+    <div class="image-nav">
+        <button id="prevImage">◀ Anterior</button>
+        <span id="imageNumber">0/999</span>
+        <button id="nextImage">Siguiente ▶</button>
+    </div>
+</div>
+
+
+
+<div class="content-section">
+    <h2>Filtrar Transacciones por Estado</h2>
+    
+    <div class="filter-controls">
+        <button id="showError" class="btn btn-primary">Mostrar ERROR</button>
+        <button id="showRejected" class="btn btn-primary">Mostrar Rechazada</button>
+        <button id="showAll" class="btn btn-secondary">Mostrar Todas</button>
+    </div>
+    
+    <div class="results-container">
+        <div id="errorResults" class="result-box">
+            <h3>Transacciones con ERROR</h3>
+            <div id="errorList" class="code-list"></div>
+            <p class="count">Total: <span id="errorCount">0</span></p>
+        </div>
+        
+        <div id="rejectedResults" class="result-box">
+            <h3>Transacciones Rechazadas</h3>
+            <div id="rejectedList" class="code-list"></div>
+            <p class="count">Total: <span id="rejectedCount">0</span></p>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Identificación de transacciones en logs no debidos</h2>
+        <p>Con base en el análisis realizado sobre las transacciones registradas en los distintos módulos (incluyendo ESB y Core bancario), se observa que no existen inconsistencias ni transacciones ubicadas en logs incorrectos. Específicamente, no se encontraron casos en los que una transacción fallida en el ESB aparezca registrada como completada en el Core, lo cual era uno de los principales indicadores buscados.
+</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=g2zPT_3Cu6oG" class="btn btn-primary">Ir a codigo fuente</a>
+            
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data1.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data2.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Resultados de validación vs ejecución real.</h2>
+        <p>La gráfica muestra cómo las transacciones con estado "Completada" se distribuyen frente al total de transacciones Aprobadas y Rechazadas. Se observa que la mayoría de las Aprobadas llegan a completarse exitosamente, lo que refleja un flujo efectivo del proceso para los casos válidos. En contraste, las transacciones Rechazadas casi nunca alcanzan un estado de completado, lo cual es esperable dado que fallan en alguna etapa del proceso de validación. Esto evidencia que el sistema está funcionando correctamente al bloquear intentos inválidos y permitiendo solo transacciones seguras.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=vR8a3tRQPhW8" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Transacciones rechazadas o fallidas y sus causas.</h2>
+        <p>Esta gráfica muestra una distribución muy desbalanceada con aproximadamente 1,750 transacciones aprobadas versus solo menos 100 rechazadas, representando una tasa de aprobación del 95%. El sistema demuestra un rendimiento excelente al procesar correctamente la gran mayoría de transacciones, mientras que el bajo número de rechazos sugiere que los criterios de validación están bien ajustados y los usuarios/sistemas que envían las transacciones generalmente cumplen con los requisitos establecidos.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=PEAoe20wP2fP" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data3.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+
+
+
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data4.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Motivos de Fallo Más Comunes en Transacciones Rechazadas </h2>
+        <p>El análisis de los motivos de fallo revela que los errores más comunes están relacionados con "IP Sospechosa", seguido por "Límite diario excedido" y "Token Invalido". Esto indica que gran parte de los rechazos provienen de problemas de autenticación o intentos sospechosos desde ubicaciones no confiables. Estos hallazgos pueden ser útiles para fortalecer las reglas de seguridad, como mejorar la validación de tokens o implementar filtros más rigurosos por geolocalización o frecuencia de intentos.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=Ubo2nPUeVh_i" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+<div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Cantidad de Peticiones por Módulo</h2>
+        <p>La mayoría de las peticiones se realizan desde el módulo "api", seguido por "web" y en menor proporción por "mobile". Esto sugiere que los usuarios interactúan principalmente a través de apis externas, lo cual podría reflejar una tendencia hacia el uso del sistema. Este comportamiento puede orientar decisiones futuras sobre dónde enfocar optimizaciones, pruebas y medidas de seguridad.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=cZb6VHVLQ34h" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data5.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data6.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Cantidad de Operaciones Realizadas</h2>
+        <p>Esta gráfica, "Cantidad de Operaciones Realizadas", muestra las frecuencias de tres tipos de operaciones bancarias: "consignar", "transferir" y "retirar". La operación de "consignar" es la más frecuente, con más de 650 operaciones. Le sigue "transferir", con casi 600, y finalmente "retirar", con aproximadamente 550 operaciones. Esto indica que las consignaciones son las transacciones más comunes, aunque los otros dos tipos de operaciones también tienen una presencia significativa.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=_jbMeZtJRSf5" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Transacciones Aprovadas en SecuCheck pero no ejecutadas</h2>
+        <p>La gran mayoría de las validaciones aprobadas (el 97.7%) están asociadas con logs de nivel INFO, mientras que solo el 2.3% presentan nivel ERROR. Esto indica que el sistema funciona correctamente en casi todos los casos, y los errores en validaciones aprobadas son poco frecuentes y podrían estar relacionados con situaciones atípicas o no críticas.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=wbSuI-ACosc7" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data7.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data8.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Transacciones duplicadas o con latencias anormales</h2>
+        <p>Durante el análisis se evaluó la cantidad de registros asociados a cada transaction_id con el objetivo de identificar posibles duplicidades o casos en los que una transacción apareciera registrada múltiples veces a lo largo del flujo (por ejemplo, por reintentos, errores o desincronización entre módulos). El resultado mostró que no existen transaction_id con más de tres registros asociados, y de hecho, no se encontró ningún caso con más de un registro relevante que sugiera comportamiento irregular. Esto indica que no hay evidencia de transacciones repetidas o con múltiples pasos intermedios que no hayan sido correctamente gestionados. En resumen, no se detectaron transacciones duplicadas ni con trazas excesivas.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=HC1LzIKRv1fg" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Latencias Anormales</h2>
+        <p>A partir del análisis de tiempos registrado en el sistema, se obtuvo un total de 1,873 transacciones, de las cuales 873 contienen datos válidos de tiempo y 1,000 presentan valores nulos (NaN) porque algunos son del request (es decir, no lleva la trazabilidad de la transacción) y los otros se pudieron haber quedado en módulos anteriores. Estos valores reflejan un comportamiento estable y consistente del sistema en cuanto a latencia, ya que la diferencia entre el tiempo más rápido y el más lento es de solo 0.25 segundos, y tanto la media como la mediana son casi idénticas. Esto implica que los tiempos de respuesta están concentrados en un rango estrecho y no se identifican valores atípicos o fuera de lo normal. En otras palabras, no se detectaron latencias anormales en los registros disponibles. En conclusión, el sistema demuestra una latencia controlada y uniforme entre las transacciones medidas, lo cual es un buen indicador de rendimiento.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=M5-zR7K7v4EY" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data9.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+
+
+
+
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data10.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Tiempos de latencia por etapa: Tiempo entre SecuCheck y MidFlow_ESB</h2>
+        <p>A partir del análisis de los datos, se observa que el tiempo de latencia entre el inicio del módulo SecuCheck y el inicio del módulo ESB se encuentra predominantemente en el rango de 5 a 6 segundos. Esta distribución sugiere una consistencia en el comportamiento del sistema, indicando que el proceso de transición entre ambos módulos mantiene una latencia relativamente estable dentro de ese intervalo.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=M1VleOdM6d7Q" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="content-section info-with-image">
+    <div class="info-text">
+        <h2>Tiempos de latencia por etapa: Tiempo entre MidFlow y CoreBank</h2>
+        <p>El gráfico de dispersión de latencia por transacción permite visualizar el comportamiento individual de cada transacción en términos de tiempo de respuesta. Se observa que la mayoría de las latencias se encuentran dentro de un rango estable, lo que sugiere un rendimiento consistente del sistema.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=NHFUmYbJF8yc" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+    <div class="info-image">
+        <img src="img/data11.jpg" alt="Descripción de la imagen">
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="content-section info-with-image image-left">
+    <div class="info-image">
+        <img src="img/data12.jpg" alt="Descripción de la imagen">
+    </div>
+    <div class="info-text">
+        <h2>Tiempo total del ecosistema tecnologico bancario</h2>
+        <p>El sistema muestra un rendimiento muy estable, con tiempos de respuesta concentrados entre 6.05 y 6.30 segundos y sin anomalías evidentes. No se observan tendencias ni fluctuaciones extremas, lo que indica un comportamiento predecible y consistente en más de 1750 transacciones.</p>
+        
+        <div class="buttons">
+            <a href="https://colab.research.google.com/drive/1GGYd_DSQwSrhDSErY5smHzzrDRZB8c6E#scrollTo=ZE9c5OPK6VU8" class="btn btn-primary">Ir a codigo fuente</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+<script src="js/transacciones.js"></script>
+<script src="js/diagramas.js"></script>
+<script src="js/csv.js"></script>
+
+</body>
+</html>
